@@ -1,0 +1,29 @@
+Function GetDistance(origin As String, destination As String) As Variant
+    Dim URL As String
+    Dim HttpReq As Object
+    Dim JsonText As String
+    
+    ' Construct the URL for the Google Maps Distance Matrix API with the API key
+    URL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" & origin & "&destinations=" & destination & "&key=GOOGLE_MAPS_API_KEY_HERE"
+    
+    ' Create a new XMLHTTP request object
+    Set HttpReq = CreateObject("MSXML2.XMLHTTP")
+    
+    ' Open a connection to the URL
+    HttpReq.Open "GET", URL, False
+    
+    ' Send the HTTP request
+    HttpReq.send
+    
+    ' Check if the HTTP request was successful
+    If HttpReq.Status = 200 Then
+        ' Get the response text
+        JsonText = HttpReq.responseText
+        
+        ' Return the JSON response text
+        GetDistance = JsonText
+    Else
+        ' Return error message if HTTP request fails
+        GetDistance = "Error: HTTP Request failed"
+    End If
+End Function
